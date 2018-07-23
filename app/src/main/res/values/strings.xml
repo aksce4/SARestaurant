@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">SARestaurant</string>
     <string name="todo">TODO</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="signup">Create Account</string>
+    <string name="login_link">Already a member? Login</string>
 
 </resources>

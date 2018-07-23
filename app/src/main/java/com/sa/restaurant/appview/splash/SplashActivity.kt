@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.MainActivity
+import com.sa.restaurant.appview.login.SignupFragment
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 
 class SplashActivity: AppCompatActivity(){
@@ -22,7 +23,7 @@ class SplashActivity: AppCompatActivity(){
             }catch (e: InterruptedException){
                 Log.e("SplashActivity","Interrupt Occur $e")
             }finally {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, SignupFragment::class.java)
                 startActivity(intent)
                 finish()
             }
