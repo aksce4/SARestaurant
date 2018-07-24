@@ -17,9 +17,6 @@ class SignupFragment: Fragment(), View.OnClickListener{
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
 
     override fun onClick(view: View?) {
 
