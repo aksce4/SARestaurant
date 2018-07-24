@@ -23,7 +23,7 @@ class SplashActivity: AppCompatActivity(){
             }catch (e: InterruptedException){
                 Log.e("SplashActivity","Interrupt Occur $e")
             }finally {
-                val intent = Intent(this, SignupFragment::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }

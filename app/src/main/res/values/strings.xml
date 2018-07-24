@@ -5,5 +5,9 @@
     <string name="email">Email</string>
     <string name="signup">Create Account</string>
     <string name="login_link">Already a member? Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="signup_link">No account yet? Create one</string>
 
 </resources>
