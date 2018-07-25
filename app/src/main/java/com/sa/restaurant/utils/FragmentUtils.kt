@@ -14,7 +14,7 @@ object FragmentUtils {
     }
 
     fun replaceFragment(fragmentManager: FragmentManager, fragment: Fragment, id: Int, context: Context){
-        callMethod(fragmentManager).replace(id, fragment).commit()
+        callMethod(fragmentManager).addToBackStack(null).replace(id, fragment).commit()
     }
 
     fun callMethod(fragmentManager: FragmentManager): FragmentTransaction {

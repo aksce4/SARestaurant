@@ -11,33 +11,24 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.sa.restaurant.R
 import com.sa.restaurant.utils.FragmentUtils
+import kotlinx.android.synthetic.main.fragment_signin.*
 
-class LoginFragment: Fragment(), View.OnClickListener{
+class LoginFragment: Fragment(){
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view: View = inflater.inflate(R.layout.fragment_signin, container, false)
-        return view
+        return inflater.inflate(R.layout.fragment_signin, container, false)
+
     }
 
-    override fun onClick(view: View?){
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-        when(view!!.id){
-            R.id.btn_login -> {
-                Log.e("LoginFragment","btn login called may be ")
-                var signupFragment: SignupFragment = SignupFragment()
-                FragmentUtils.replaceFragment(fragmentManager!!, signupFragment, R.id.framelayout_main, activity!!)
-                Log.e("LoginFragment","btn login called may be 2")
-
-            }
+        fragment_signin_txt_signup.setOnClickListener {
+            var signupFragment: SignupFragment = SignupFragment()
+            FragmentUtils.replaceFragment(fragmentManager!!, signupFragment, R.id.framelayout_main, activity!!)
         }
     }
-
-
-
-
-
-
 
 
 }

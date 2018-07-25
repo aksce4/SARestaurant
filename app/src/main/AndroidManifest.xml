@@ -9,19 +9,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".appview.MainActivity" android:theme="@style/AppTheme.Dark">
-
-        </activity>
-
-        <activity android:name=".appview.splash.SplashActivity" android:theme="@style/AppTheme.Dark">
+        <activity
+            android:name=".appview.MainActivity"
+            android:theme="@style/AppTheme.Dark"></activity>
+        <activity
+            android:name=".appview.splash.SplashActivity"
+            android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".appview.login.SignupFragment" android:theme="@style/AppTheme.Dark"/>
+        <activity
+            android:name=".appview.restaurant.RestaurantActivity"
+            android:label="@string/title_activity_restaurant"
+            android:parentActivityName=".appview.MainActivity"
+            android:theme="@style/AppTheme.Dark">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sa.restaurant.appview.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.MainActivity
 import com.sa.restaurant.appview.login.SignupFragment
+import com.sa.restaurant.appview.restaurant.RestaurantActivity
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 
 class SplashActivity: AppCompatActivity(){

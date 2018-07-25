@@ -20,11 +20,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.e("MainActivity","MainActivity Login will Start")
         var loginFragment: LoginFragment = LoginFragment()
-      //  var signupFragment: SignupFragment = SignupFragment()
         FragmentUtils.addFragment(supportFragmentManager, loginFragment, R.id.framelayout_main, this)
-        Log.e("MainActivity","MainActivity Login Start Already in main here")
     }
 
 
