@@ -6,7 +6,7 @@ import android.arch.persistence.room.*
 interface LoginDao {
 
     @Insert
-    fun addUser(loginTable: LoginTable)
+    fun insertUser(loginTable: LoginTable)
 
     @Delete
     fun deleteUser(loginTable: LoginTable)
@@ -16,6 +16,9 @@ interface LoginDao {
 
     @Query("Select * from Logintable")
     fun getUser(): List<LoginTable>
+
+    @Query("Select * from Logintable where Username=:username or Email=:email")
+    fun checkUser(username: String, email: String): List<LoginTable>
 
     @Query("Select * from Logintable where Username=:username and Password=:password")
     fun userLogin(username: String, password: String): List<LoginTable>
