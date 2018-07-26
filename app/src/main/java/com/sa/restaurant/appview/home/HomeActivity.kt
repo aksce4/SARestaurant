@@ -1,29 +1,31 @@
-package com.sa.restaurant.appview.restaurant
+package com.sa.restaurant.appview.home
 
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.MainActivity
-import kotlinx.android.synthetic.main.activity_restaurant.*
-import kotlinx.android.synthetic.main.app_bar_restaurant.*
-import kotlinx.android.synthetic.main.nav_header_restaurant.*
+import com.sa.restaurant.appview.map.MapFragment
+import com.sa.restaurant.appview.map.presenter.MapPresenterImpl
+import com.sa.restaurant.utils.FragmentUtils
+import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.app_bar_home.*
 
-class RestaurantActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    lateinit var mapPresenterImpl: MapPresenterImpl
+    var mapFragment:MapFragment = MapFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_restaurant)
+        setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
 
         val toggle = ActionBarDrawerToggle(
@@ -67,8 +69,11 @@ class RestaurantActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.maps -> {
-
-
+                if (mapPresenterImpl.checkService(this)){
+                   // FragmentUtils.replaceFragment(fragmentManager, mapFragment, R.id.framelayout_main, this)
+                    FragmentUtils.addFragment(supportFragmentManager, mapFragment, R.id.content_home, this)
+                }
+                return true
             }
             else -> return super.onOptionsItemSelected(item)
         }

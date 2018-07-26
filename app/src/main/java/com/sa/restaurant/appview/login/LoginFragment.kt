@@ -1,24 +1,20 @@
 package com.sa.restaurant.appview.login
 
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.room.Room
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.MainActivity
 import com.sa.restaurant.appview.login.presenter.LoginPresenter
 import com.sa.restaurant.appview.login.presenter.LoginPresenterImpl
 import com.sa.restaurant.appview.login.view.LoginView
-import com.sa.restaurant.appview.restaurant.RestaurantActivity
+import com.sa.restaurant.appview.home.HomeActivity
 import com.sa.restaurant.appview.roomdatabase.MyDatabase
 import com.sa.restaurant.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_signin.*
@@ -52,7 +48,7 @@ class LoginFragment: Fragment(), LoginView{
             var success: Boolean = loginPresenter.validateuser(username, password, myDatabase, activity!!)
 
             if (success){
-                var intent: Intent = Intent(activity,RestaurantActivity::class.java)
+                var intent: Intent = Intent(activity,HomeActivity::class.java)
                 startActivity(intent)
             }
 
