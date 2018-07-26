@@ -2,6 +2,7 @@ package com.sa.restaurant.appview.login
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.room.Room
 import com.sa.restaurant.R
+import com.sa.restaurant.appview.MainActivity
 import com.sa.restaurant.appview.login.presenter.LoginPresenter
 import com.sa.restaurant.appview.login.presenter.LoginPresenterImpl
 import com.sa.restaurant.appview.login.view.LoginView
@@ -59,8 +61,13 @@ class LoginFragment: Fragment(), LoginView{
         }
     }
 
-    override fun authUser(activity: Activity, username: String?, password: String?) {
+    override fun authUser(activity: MainActivity, name: String?, email: String?) {
         Toast.makeText(activity, "Login successfull..!!", Toast.LENGTH_SHORT).show()
+        var sharedPreferences:SharedPreferences= activity.getSharedPreferences("UserInfo",0)
+        var info: SharedPreferences.Editor = sharedPreferences.edit()
+        info.putString("name", name)
+        info.putString("email", email)
+        info.apply()
     }
 
 

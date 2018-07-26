@@ -20,7 +20,7 @@ class SplashActivity: AppCompatActivity(){
             try {
                 val visibility = if (progress_bar.visibility == View.GONE) View.VISIBLE else View.GONE
                 progress_bar.visibility = visibility
-                Thread.sleep(5000)
+                Thread.sleep(1000)
             }catch (e: InterruptedException){
                 Log.e("SplashActivity","Interrupt Occur $e")
             }finally {

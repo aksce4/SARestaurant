@@ -1,6 +1,9 @@
 package com.sa.restaurant.appview.restaurant
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.core.view.GravityCompat
@@ -8,9 +11,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.sa.restaurant.R
+import com.sa.restaurant.appview.MainActivity
 import kotlinx.android.synthetic.main.activity_restaurant.*
 import kotlinx.android.synthetic.main.app_bar_restaurant.*
+import kotlinx.android.synthetic.main.nav_header_restaurant.*
 
 class RestaurantActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -19,17 +25,25 @@ class RestaurantActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         setContentView(R.layout.activity_restaurant)
         setSupportActionBar(toolbar)
 
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-//        }
-
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        //set user info into navigation bar
+        var shared: SharedPreferences = this.getSharedPreferences("UserInfo", 0)
+        var Name: String = shared.getString("name", "name")
+     //   var Name = shared.getString("name","")
+        var Email = shared.getString("email", "email")
+
+        Log.d("TAG", "$Name $Email")
+
+//        txt_header_name.setText(Name)
+//        txt_header_email.setText(Email)
+
+
     }
 
     override fun onBackPressed() {
@@ -51,7 +65,7 @@ class RestaurantActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.action_settings -> return true
+            R.id.maps -> return true
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -69,7 +83,8 @@ class RestaurantActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
             }
             R.id.nav_logout -> {
-
+               var intent: Intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
         }
 

@@ -2,6 +2,7 @@ package com.sa.restaurant.appview.login.presenter
 
 import android.app.Activity
 import android.widget.Toast
+import com.sa.restaurant.appview.MainActivity
 import com.sa.restaurant.appview.login.LoginFragment
 import com.sa.restaurant.appview.roomdatabase.LoginTable
 import com.sa.restaurant.appview.roomdatabase.MyDatabase
@@ -13,9 +14,9 @@ class LoginPresenterImpl: LoginPresenter{
 
         if (result.isNotEmpty()){
             var loginFragment: LoginFragment = LoginFragment()
-            var Username = result[0].username
-            var Password = result[0].password
-            loginFragment.authUser(activity, Username, Password)
+            var Name = result[0].name
+            var Email = result[0].email
+            loginFragment.authUser(activity as MainActivity, Name, Email)
             return true
         }else{
             Toast.makeText(activity, "Invalid Username or Password", Toast.LENGTH_SHORT).show()
