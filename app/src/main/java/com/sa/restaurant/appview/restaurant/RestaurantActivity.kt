@@ -67,7 +67,7 @@ class RestaurantActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.maps -> {
-                
+
 
             }
             else -> return super.onOptionsItemSelected(item)
