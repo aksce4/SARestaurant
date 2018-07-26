@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.nav_header_restaurant.*
 
 class RestaurantActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant)
@@ -65,7 +66,10 @@ class RestaurantActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.maps -> return true
+            R.id.maps -> {
+                
+
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }

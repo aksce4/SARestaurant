@@ -71,7 +71,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/opt/android-studio-preview/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_favorite_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/opt/android-studio-preview/plugins/android/lib/android.jar!/images/material_design_icons/device/ic_gps_fixed_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -82,7 +82,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_restaurant_fav" />
+                            <entry key="outputName" value="ic_map_gps" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>

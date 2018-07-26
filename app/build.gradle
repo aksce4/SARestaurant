@@ -37,6 +37,9 @@ dependencies {
     implementation "androidx.room:room-runtime:2.0.0-alpha1"
     annotationProcessor "androidx.room:room-compiler:2.0.0-alpha1"
     kapt "androidx.room:room-compiler:2.0.0-alpha1"
+    implementation 'com.google.android.gms:play-services-places:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
 
 
 }
