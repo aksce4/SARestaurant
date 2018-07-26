@@ -1,10 +1,9 @@
 package com.sa.restaurant.appview.roomdatabase
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
-import com.sa.restaurant.R.string.email
-import com.sa.restaurant.R.string.username
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 
 @Entity(tableName = "Logintable")
  class LoginTable{

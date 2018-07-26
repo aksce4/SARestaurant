@@ -13,9 +13,9 @@ class LoginPresenterImpl: LoginPresenter{
 
         if (result.isNotEmpty()){
             var loginFragment: LoginFragment = LoginFragment()
-            var username = result[0].username
-            var password = result[0].password
-            loginFragment.authUser(activity, username, password)
+            var Username = result[0].username
+            var Password = result[0].password
+            loginFragment.authUser(activity, Username, Password)
             return true
         }else{
             Toast.makeText(activity, "Invalid Username or Password", Toast.LENGTH_SHORT).show()

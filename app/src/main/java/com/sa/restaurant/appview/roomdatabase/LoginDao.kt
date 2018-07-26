@@ -1,6 +1,7 @@
 package com.sa.restaurant.appview.roomdatabase
 
-import android.arch.persistence.room.*
+import androidx.room.*
+
 
 @Dao
 interface LoginDao {

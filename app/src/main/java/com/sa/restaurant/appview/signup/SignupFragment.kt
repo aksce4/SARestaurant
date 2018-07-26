@@ -1,7 +1,6 @@
 package com.sa.restaurant.appview.login
 
 import android.app.Activity
-import android.arch.persistence.room.Room
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.room.Room
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.roomdatabase.MyDatabase
 import com.sa.restaurant.appview.signup.presenter.SignupPresenter
@@ -30,7 +30,7 @@ class SignupFragment: Fragment(), SignupView{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        myDatabase = Room.databaseBuilder(activity!!, MyDatabase::class.java, "Database").allowMainThreadQueries().build()
+        myDatabase = Room.databaseBuilder(activity!!, MyDatabase::class.java, "AppData").allowMainThreadQueries().build()
 
 
         fragment_signup_txt_signin.setOnClickListener {
