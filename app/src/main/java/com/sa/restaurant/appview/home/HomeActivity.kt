@@ -28,6 +28,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
 
+        mapPresenterImpl = MapPresenterImpl()
+
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -71,7 +73,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.maps -> {
                 if (mapPresenterImpl.checkService(this)){
                    // FragmentUtils.replaceFragment(fragmentManager, mapFragment, R.id.framelayout_main, this)
-                    FragmentUtils.addFragment(supportFragmentManager, mapFragment, R.id.content_home, this)
+                   // FragmentUtils.addFragment(supportFragmentManager, mapFragment, R.id.content_home, this)
+                    FragmentUtils.replaceFragment(supportFragmentManager, mapFragment, R.id.content_home_holder, this)
                 }
                 return true
             }
@@ -83,7 +86,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-
+                var intent: Intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_favourite -> {
 

@@ -18,8 +18,10 @@
     <string name="action_settings">Settings</string>
     <string name="txt_res_name">Restaurant Name</string>
     <string name="txt_restaurant_address">Address of the Restaurant</string>
-    <string name="google_map_API_key">**</string>
+    <string name="google_map_API_key">AIzaSyCMSWSj4rGZVem_1pcOeEP2APOMGeSl8FU</string>
     <string name="data_input">Enter Address, City or Zip Code</string>
     <string name="btn_mapchange">Change</string>
+
+
 
 </resources>
