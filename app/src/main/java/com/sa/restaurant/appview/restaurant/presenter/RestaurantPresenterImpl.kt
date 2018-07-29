@@ -13,7 +13,9 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.sa.restaurant.appview.home.HomeActivity
 import com.sa.restaurant.appview.restaurant.GoogleApiServices
 import com.sa.restaurant.appview.restaurant.adapter.RestaurantAdapter
@@ -32,10 +34,15 @@ class RestaurantPresenterImpl: RestaurantPresenter, GoogleApiClient.ConnectionCa
     lateinit var locationCallback: LocationCallback
     var pojo: Pojo = Pojo()
     var list: ArrayList<RestaurantDetails> = ArrayList()
+    lateinit var location: Location
+    var latlng: LatLng? = null
+    var GEOFENCE_ID = "Current_Location"
+    var count: Int = 0
 
     companion object {
         var hashMap:HashMap<String,Location> = HashMap()
         lateinit var gclient: GoogleApiClient
+        val AREA_LANDMARKS: HashMap<String, LatLng> = HashMap<String, LatLng>()
     }
 
     //Connection Failed Listener Methods
@@ -61,11 +68,33 @@ class RestaurantPresenterImpl: RestaurantPresenter, GoogleApiClient.ConnectionCa
         return locationReq
     }
 
-//    override fun BuildLocationCallback(googleApiServices: GoogleApiServices, context: ViewGroup, activity: Context, adapter: RestaurantAdapter): LocationCallback {
-//        locationCallback = object : LocationCallback(){
-//
-//        }
-//    }
+    override fun BuildLocationCallback(googleApiServices: GoogleApiServices, context: ViewGroup, activity: Context, adapter: RestaurantAdapter): LocationCallback {
+        locationCallback = object : LocationCallback(){
+            override fun onLocationResult(locationResult: LocationResult?) {
+                location = locationResult!!.locations[locationResult.locations.size - 1]
+                latlng = LatLng(location.latitude, location.longitude)
+
+                AREA_LANDMARKS[GEOFENCE_ID] = latlng!!
+
+                if (location != null){
+                    count++
+                    if (count==1){
+                        nearplace(activity, "restaurant", location, googleApiServices, adapter)
+                    }
+
+                    if(HomeActivity.mcount == 1){
+                        HomeActivity.mcount = 0
+                        list.clear()
+                        nearplace(activity, "restaurant", location, googleApiServices, adapter)
+                    }
+                }
+
+
+            }
+
+        }
+        return locationCallback
+    }
 
     override fun checklocationpermission(context: Activity): Boolean {
         return if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

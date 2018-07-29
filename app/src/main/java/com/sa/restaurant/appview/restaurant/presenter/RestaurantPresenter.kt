@@ -13,7 +13,7 @@ interface RestaurantPresenter {
 
     fun BuildLocationreq(): LocationRequest
 
-  //  fun BuildLocationCallback(googleApiServices: GoogleApiServices, context: ViewGroup, activity: Context, adapter: RestaurantAdapter): LocationCallback
+    fun BuildLocationCallback(googleApiServices: GoogleApiServices, context: ViewGroup, activity: Context, adapter: RestaurantAdapter): LocationCallback
 
     //Avail
     fun checklocationpermission(context: Activity): Boolean
