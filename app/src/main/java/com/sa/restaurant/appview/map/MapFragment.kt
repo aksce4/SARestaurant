@@ -163,8 +163,6 @@ class MapFragment: Fragment(),  OnMapReadyCallback{
 
     private fun initMap() {
         Log.e(TAG, "initMap: initializing Map")
-//        var mapFrag: SupportMapFragment = fragmentManager!!.findFragmentById(R.id.fragment_map) as SupportMapFragment
-//        mapFrag.getMapAsync(this)
         m_View?.onCreate(null)
         m_View?.onResume()
         m_View?.getMapAsync(this)

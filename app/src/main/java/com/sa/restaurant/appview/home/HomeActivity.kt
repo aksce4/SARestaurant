@@ -1,7 +1,9 @@
 package com.sa.restaurant.appview.home
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.navigation.NavigationView
@@ -10,18 +12,36 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.MainActivity
 import com.sa.restaurant.appview.map.MapFragment
 import com.sa.restaurant.appview.map.presenter.MapPresenterImpl
+import com.sa.restaurant.appview.restaurant.GoogleApiServices
+import com.sa.restaurant.appview.restaurant.RestaurantFragment
+import com.sa.restaurant.appview.restaurant.adapter.RestaurantAdapter
+import com.sa.restaurant.appview.restaurant.model.RestaurantDetails
+import com.sa.restaurant.appview.restaurant.view.RestaurantView
 import com.sa.restaurant.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RestaurantView {
+    override fun currentlatlng(location: Location, googleApiServices: GoogleApiServices, context: ViewGroup, activity: Context, adapter: RestaurantAdapter) {
+
+    }
+
+    override fun restaurnatlist(list: ArrayList<RestaurantDetails>, activity: Context, adapter: RestaurantAdapter) {
+    }
 
     lateinit var mapPresenterImpl: MapPresenterImpl
     var mapFragment:MapFragment = MapFragment()
+    var restaurantFragment: RestaurantFragment = RestaurantFragment()
+
+    companion object {
+        var mcount:Int=0
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +92,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.maps -> {
                 if (mapPresenterImpl.checkService(this)){
-                   // FragmentUtils.replaceFragment(fragmentManager, mapFragment, R.id.framelayout_main, this)
-                   // FragmentUtils.addFragment(supportFragmentManager, mapFragment, R.id.content_home, this)
                     FragmentUtils.replaceFragment(supportFragmentManager, mapFragment, R.id.content_home_holder, this)
                 }
                 return true
@@ -86,8 +104,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-                var intent: Intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
+               FragmentUtils.replaceFragment(supportFragmentManager, restaurantFragment, R.id.content_home_holder, this)
             }
             R.id.nav_favourite -> {
 
