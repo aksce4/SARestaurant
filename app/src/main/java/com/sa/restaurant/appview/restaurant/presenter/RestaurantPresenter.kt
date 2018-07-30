@@ -1,22 +1,14 @@
 package com.sa.restaurant.appview.restaurant.presenter
 
-import android.app.Activity
-import android.content.Context
-import android.view.ViewGroup
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.sa.restaurant.appview.restaurant.GoogleApiServices
-import com.sa.restaurant.appview.restaurant.adapter.RestaurantAdapter
+import com.google.android.gms.maps.model.LatLng
+import com.sa.restaurant.appview.restaurant.model.ResponseModelClass
+import com.sa.restaurant.appview.roomdatabase.model.FavoriteRestaurantTable
+
 
 interface RestaurantPresenter {
 
-    fun BuildLocationreq(): LocationRequest
+    fun getListOfLocations(responseFromParse: ResponseModelClass) :ArrayList<LatLng>
 
-    fun BuildLocationCallback(googleApiServices: GoogleApiServices, context: ViewGroup, activity: Context, adapter: RestaurantAdapter): LocationCallback
+    fun getListOfFavLocations(listOfFavoriteRestaurantTable: ArrayList<FavoriteRestaurantTable>): ArrayList<LatLng>
 
-    //Avail
-    fun checklocationpermission(context: Activity): Boolean
-
-    fun createClient(context: Context): GoogleApiClient
 }

@@ -1,9 +1,8 @@
 package com.sa.restaurant.appview.restaurant.model
 
-
 import com.google.gson.annotations.Expose
 
-class Location {
+class Southwest {
 
     @Expose
     var lat: Double? = null

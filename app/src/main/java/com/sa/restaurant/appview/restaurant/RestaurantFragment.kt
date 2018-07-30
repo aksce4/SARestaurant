@@ -1,74 +1,142 @@
 package com.sa.restaurant.appview.restaurant
 
 import android.content.Context
-import android.os.Build
+import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
+import androidx.room.Room
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.home.HomeActivity
-import com.sa.restaurant.appview.restaurant.adapter.RestaurantAdapter
-import com.sa.restaurant.appview.restaurant.model.RestaurantDetails
-import com.sa.restaurant.appview.restaurant.presenter.RestaurantPresenter
-import com.sa.restaurant.appview.restaurant.presenter.RestaurantPresenterImpl
+import com.sa.restaurant.appview.location.GetLocation
+import com.sa.restaurant.appview.location.GetLocationImpl
+import com.sa.restaurant.appview.location.LocationCommunication
+import com.sa.restaurant.appview.restaurant.adapter.RestaurantListAdapter
+import com.sa.restaurant.appview.restaurant.model.ResponseModelClass
+import com.sa.restaurant.appview.restaurant.presenter.RestaurantPresenterImp
+import com.sa.restaurant.appview.roomdatabase.MyDatabase
+import com.sa.restaurant.utils.PermissionUtils
 import kotlinx.android.synthetic.main.fragment_restaurant.*
+import restaurant.sa.com.sarestaurant.appview.restaurant.GooglePlacesClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-class RestaurantFragment: Fragment(){
 
+class RestaurantFragment : Fragment(){
+
+    val BASE_URL = "https://maps.googleapis.com"
+    val TAG = "RestaurantFragment"
     lateinit var homeActivity: HomeActivity
+    private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+    lateinit var userDataBase: MyDatabase
+    var permissionList = arrayListOf<String>(android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    var granted = false
+    lateinit var listOfPlacesLocation: ArrayList<LatLng>
+    lateinit var restaurantPresenterImp: RestaurantPresenterImp
+    lateinit var locationCommunication: LocationCommunication
     lateinit var contextRestFrag: Context
-    lateinit var googleApiServices: GoogleApiServices
-    var googleApiClient: GoogleApiClient? = null
-    lateinit var restaurantAdapter: RestaurantAdapter
-    var list: ArrayList<RestaurantDetails> = ArrayList()
-
-    lateinit var locationreq: LocationRequest
-    lateinit var locationcallback: LocationCallback
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_restaurant, container, false)
-    }
+    val result_type = "restaurant"
+    val radius = 2000
+    val sensor = true
+    var currentLocation: Location? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         contextRestFrag = context!!
         homeActivity = context as HomeActivity
+        homeActivity.supportActionBar?.show()
+        locationCommunication = homeActivity
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_restaurant, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        var restaurantPresenter: RestaurantPresenter = RestaurantPresenterImpl()
-        googleApiClient = restaurantPresenter.createClient(homeActivity)
-        googleApiClient!!.connect()
+//        var permissionUtils = PermissionUtils(homeActivity)
+//        granted = permissionUtils.checkPermissions(permissionList)
+        restaurantPresenterImp = RestaurantPresenterImp()
+        granted = true
 
+//        Log.e(TAG, "onCreate: $granted")
 
+//        if(!granted){
+//            permissionUtils.askForPermissions()
+//        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            restaurantPresenter.checklocationpermission(homeActivity!!)
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(homeActivity)
+        var getLocation = GetLocationImpl(granted, mFusedLocationProviderClient, contextRestFrag)
+        getLocation.sendLocation(object: GetLocation.OnReceiveLocation{
+            override fun getDeviceLastLocation(location: Location) {
+                Log.e(TAG, "getDeviceLastLocation: $location Mil");
+                currentLocation = location
+                retrofitCall(location)
+            }
+
+            override fun receiveLocationUpdatesFun() {
+
+            }
+
+            override fun onError() {
+
+            }
+
+        })
+
+        fragment_restaurant_swiperefreshlayout.setOnRefreshListener {
+            Handler().postDelayed({
+                fragment_restaurant_swiperefreshlayout.setRefreshing(false);
+
+                retrofitCall(currentLocation)
+
+                Log.e(TAG, "onActivityCreated: $currentLocation")
+            }, 3000)
         }
 
-        val viewGroup = (homeActivity.findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
-        recyclerview.layoutManager = LinearLayoutManager(homeActivity, LinearLayout.VERTICAL, false)
-        restaurantAdapter = RestaurantAdapter(homeActivity, list)
-        recyclerview.adapter = restaurantAdapter
+        userDataBase = Room.databaseBuilder(homeActivity, MyDatabase::class.java, "AppData")
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries().build()
+    }
 
+    fun retrofitCall(location: Location?){
+        var builder = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
 
-        //Getting Current Location
-        googleApiServices = RetrofitnearbyClient.getClient("https://maps.google.com/").create(GoogleApiServices::class.java)
-        locationreq = restaurantPresenter.BuildLocationreq()
-        locationcallback = restaurantPresenter.BuildLocationCallback(googleApiServices, viewGroup, homeActivity, restaurantAdapter)
+        var retrofit: Retrofit = builder.build()
 
-      //  fragment_restaurant_swiperefreshlayout.setOnRefreshListener()
+        var client: GooglePlacesClient = retrofit.create(GooglePlacesClient::class.java)
 
+        var call = client.sendRequestForPlaces("${location?.latitude},${location?.longitude}", radius.toString(), result_type, sensor.toString(), resources.getString(R.string.google_map_API_key))
+        call.enqueue(object : Callback<ResponseModelClass> {
+            override fun onFailure(call: Call<ResponseModelClass>?, t: Throwable?) {
+                Log.e(TAG, "onFailure: $t");
+            }
+
+            override fun onResponse(call: Call<ResponseModelClass>?, responseModelClass: Response<ResponseModelClass>?) {
+                Log.d(TAG, "onResponse: ${responseModelClass!!.body()}")
+                val layout = LinearLayoutManager(activity)
+                listOfPlacesLocation = restaurantPresenterImp.getListOfLocations(responseModelClass.body()!!)
+                locationCommunication.sendLocationFromRestaurant(listOfPlacesLocation)
+                recyclerview.adapter = RestaurantListAdapter(responseModelClass.body()!!, userDataBase.favoriteRestaurantDao().getAll(), homeActivity, userDataBase)
+                recyclerview.layoutManager = layout
+            }
+        })
     }
 
 }

@@ -5,7 +5,7 @@ import com.sa.restaurant.appview.MainActivity
 
 interface LoginView {
 
-    fun authUser(activity: MainActivity, name: String?, email: String?){
+    fun authUser(activity: MainActivity, username: String?, email: String?){
 
     }
 }

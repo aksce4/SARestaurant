@@ -1,6 +1,7 @@
-package com.sa.restaurant.appview.roomdatabase
+package com.sa.restaurant.appview.roomdatabase.dao
 
 import androidx.room.*
+import com.sa.restaurant.appview.roomdatabase.model.LoginTable
 
 
 @Dao
@@ -23,4 +24,7 @@ interface LoginDao {
 
     @Query("Select * from Logintable where Username=:username and Password=:password")
     fun userLogin(username: String, password: String): List<LoginTable>
+
+    @Query("Select * from Logintable where Email=:email and Password=:password")
+    fun fbLogin(email: String, password: String): List<LoginTable>
 }

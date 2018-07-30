@@ -1,5 +1,6 @@
 package com.sa.restaurant.appview.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -13,42 +14,76 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.MainActivity
+import com.sa.restaurant.appview.location.GetLocation
+import com.sa.restaurant.appview.location.GetLocationImpl
+import com.sa.restaurant.appview.location.LocationCommunication
 import com.sa.restaurant.appview.map.MapFragment
 import com.sa.restaurant.appview.map.presenter.MapPresenterImpl
-import com.sa.restaurant.appview.restaurant.GoogleApiServices
+import com.sa.restaurant.appview.restaurant.FavoriteFragment
 import com.sa.restaurant.appview.restaurant.RestaurantFragment
-import com.sa.restaurant.appview.restaurant.adapter.RestaurantAdapter
-import com.sa.restaurant.appview.restaurant.model.RestaurantDetails
-import com.sa.restaurant.appview.restaurant.view.RestaurantView
 import com.sa.restaurant.utils.FragmentUtils
+import com.sa.restaurant.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RestaurantView {
-    override fun currentlatlng(location: Location, googleApiServices: GoogleApiServices, context: ViewGroup, activity: Context, adapter: RestaurantAdapter) {
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationCommunication {
 
-    }
-
-    override fun restaurnatlist(list: ArrayList<RestaurantDetails>, activity: Context, adapter: RestaurantAdapter) {
-    }
-
+    var listOfLocations: java.util.ArrayList<LatLng> = java.util.ArrayList()
     lateinit var mapPresenterImpl: MapPresenterImpl
     var mapFragment:MapFragment = MapFragment()
-    var restaurantFragment: RestaurantFragment = RestaurantFragment()
+    var permissionList = arrayListOf<String>(android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+    val TAG = "HomeActivity"
+    var fav: Boolean = false
+    var restora: Boolean = false
+    var weather: Boolean = false
 
-    companion object {
-        var mcount:Int=0
+    override fun sendLocationFromRestaurant(listOfLocations: java.util.ArrayList<LatLng>) {
+        this.listOfLocations = listOfLocations
     }
 
+    override fun getLocationFromRestaurant(): java.util.ArrayList<LatLng> {
+        return listOfLocations
+    }
 
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
 
         mapPresenterImpl = MapPresenterImpl()
+        var permissionUtils = PermissionUtils(this)
+        var granted = permissionUtils.checkPermissions(permissionList)
+
+        if(!granted){
+            permissionUtils.askForPermissions()
+        }
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        var getLocation = GetLocationImpl(granted, mFusedLocationProviderClient, this)
+        getLocation.sendLocation(object: GetLocation.OnReceiveLocation{
+            override fun getDeviceLastLocation(location: Location) {
+                Log.d(TAG, "getDeviceLastLocation: $location ");
+            }
+
+            override fun receiveLocationUpdatesFun() {
+
+            }
+
+            override fun onError() {
+
+            }
+
+        })
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -57,6 +92,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
+        FragmentUtils.replaceFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
         //set user info into navigation bar
         var shared: SharedPreferences = this.getSharedPreferences("UserInfo", 0)
         var Name: String = shared.getString("name", "name")
@@ -91,8 +127,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.maps -> {
+                supportActionBar!!.title = "Location"
                 if (mapPresenterImpl.checkService(this)){
-                    FragmentUtils.replaceFragment(supportFragmentManager, mapFragment, R.id.content_home_holder, this)
+                    //FragmentUtils.replaceFragment(supportFragmentManager, mapFragment, R.id.content_home_holder, this)
+                    FragmentUtils.addFragWithBackStack(supportFragmentManager, mapFragment, this,R.id.content_home_holder)
                 }
                 return true
             }
@@ -104,16 +142,38 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-               FragmentUtils.replaceFragment(supportFragmentManager, restaurantFragment, R.id.content_home_holder, this)
+                supportActionBar!!.title = "Restaurants"
+                fav = false
+                weather = false
+                if (!restora){
+                    FragmentUtils.removeFragment(supportFragmentManager, FavoriteFragment())
+                    //  FragmentUtils.removeFragment(supportFragmentManager, weatherFragment)
+                    FragmentUtils.addFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
+                    restora = true
+                }else{
+
+                }
+               // FragmentUtils.replaceFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
             }
             R.id.nav_favourite -> {
+                supportActionBar!!.title = "Favourite Restaurants"
+                restora = false
+                weather = false
+                if(!fav){
+                    FragmentUtils.removeFragment(supportFragmentManager, mapFragment)
+                    //  FragmentUtils.removeFragment(supportFragmentManager, weatherFragment)
+                    FragmentUtils.addFragment(supportFragmentManager, FavoriteFragment(), R.id.content_home_holder, this)
+                    fav = true
+                }else{
 
+                }
+              // FragmentUtils.replaceFragment(supportFragmentManager, FavoriteFragment(), R.id.content_home_holder, this )
             }
             R.id.nav_weather -> {
-
+                supportActionBar!!.title = "Weather"
             }
             R.id.nav_logout -> {
-               var intent: Intent = Intent(this, MainActivity::class.java)
+                var intent: Intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
         }

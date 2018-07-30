@@ -1,13 +1,12 @@
 package com.sa.restaurant.appview.restaurant.model
 
-
 import com.google.gson.annotations.Expose
 
-class Location {
+class Viewport {
 
     @Expose
-    var lat: Double? = null
+    var northeast: Northeast? = null
     @Expose
-    var lng: Double? = null
+    var southwest: Southwest? = null
 
 }

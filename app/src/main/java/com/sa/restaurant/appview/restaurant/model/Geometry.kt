@@ -1,5 +1,12 @@
 package com.sa.restaurant.appview.restaurant.model
 
-import android.location.Location
+import com.google.gson.annotations.Expose
 
-data class Geometry(val location: Location)
+class Geometry {
+
+    @Expose
+    var location: Location? = null
+    @Expose
+    var viewport: Viewport? = null
+
+}

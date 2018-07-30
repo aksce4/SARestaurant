@@ -4,7 +4,7 @@ import android.app.Activity
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.sa.restaurant.appview.login.SignupFragment
-import com.sa.restaurant.appview.roomdatabase.LoginTable
+import com.sa.restaurant.appview.roomdatabase.model.LoginTable
 import com.sa.restaurant.appview.roomdatabase.MyDatabase
 import com.sa.restaurant.appview.signup.view.SignupView
 

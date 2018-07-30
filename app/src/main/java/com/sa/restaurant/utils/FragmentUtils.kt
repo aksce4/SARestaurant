@@ -17,6 +17,15 @@ object FragmentUtils {
         callMethod(fragmentManager).addToBackStack(null).replace(id, fragment).commit()
     }
 
+    fun removeFragment(fragmentManager: FragmentManager, fragment: Fragment){
+        callMethod(fragmentManager).remove(fragment).commit()
+    }
+
+    fun addFragWithBackStack(fragmentManager: FragmentManager, fragment: Fragment, context: Context, id: Int){
+        callMethod(fragmentManager).addToBackStack(null).add(id, fragment).commit()
+    }
+
+
     fun callMethod(fragmentManager: FragmentManager): FragmentTransaction {
         var fragmentManager: FragmentManager = fragmentManager
         var fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()

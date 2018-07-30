@@ -9,7 +9,7 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="signup_link">No account yet? Create one</string>
-    <string name="title_activity_restaurant">RestaurantActivity</string>
+    <string name="title_activity_restaurant">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -18,11 +18,11 @@
     <string name="action_settings">Settings</string>
     <string name="txt_res_name">Restaurant Name</string>
     <string name="txt_restaurant_address">Address of the Restaurant</string>
-    <string name="google_map_API_key">AIzaSyAJeNgGmNXTC0Aa9ZRBOvaS0ZlZiURVZDI</string>
+    <string name="google_map_API_key">AIzaSyBhlgT3QHNx8NzE9yvK4kVQsSyaahXQja8</string>
     <string name="data_input">Enter Address, City or Zip Code</string>
     <string name="btn_mapchange">Change</string>
-    <string name="google_place_API_key">AIzaSyAJeNgGmNXTC0Aa9ZRBOvaS0ZlZiURVZDI</string>
-
-
+    <string name="google_place_API_key">AIzaSyBhlgT3QHNx8NzE9yvK4kVQsSyaahXQja8</string>
+    <string name="facebook_app_id">2079618758966731</string>
+    <string name="fb_login_protocol_scheme">fb2079618758966731</string>
 
 </resources>

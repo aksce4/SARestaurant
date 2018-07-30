@@ -1,14 +1,33 @@
 package com.sa.restaurant.appview.restaurant.model
 
-data class Result( val geometry: Geometry,
-                   val icon: String,
-                   val id: String,
-                   val name: String,
-                   val place_id: String,
-                   val reference: String,
-                   val scope: String,
-                   val types: List<String>,
-                   val vicinity: String,
-                   val rating: Double,
-                   val photos: List<Photo>,
-                   val opening_hour: OpeningHour)
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
+class Result {
+
+    @Expose
+    var geometry: Geometry? = null
+    @Expose
+    var icon: String? = null
+    @Expose
+    var id: String? = null
+    @Expose
+    var name: String? = null
+    @Expose
+    var photos: List<Photo>? = null
+    @SerializedName("place_id")
+    var placeId: String? = null
+    @SerializedName("plus_code")
+    var plusCode: PlusCode? = null
+    @Expose
+    var rating: Double? = null
+    @Expose
+    var reference: String? = null
+    @Expose
+    var scope: String? = null
+    @Expose
+    var types: List<String>? = null
+    @Expose
+    var vicinity: String? = null
+
+}

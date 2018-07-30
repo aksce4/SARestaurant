@@ -1,4 +1,4 @@
-package com.sa.restaurant.appview.roomdatabase
+package com.sa.restaurant.appview.roomdatabase.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

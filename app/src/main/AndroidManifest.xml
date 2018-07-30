@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.Dark">
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -21,14 +21,12 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAJeNgGmNXTC0Aa9ZRBOvaS0ZlZiURVZDI"/>
+            android:value="AIzaSyBhlgT3QHNx8NzE9yvK4kVQsSyaahXQja8"/>
 
         <activity
-            android:name=".appview.MainActivity"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:name=".appview.MainActivity"></activity>
         <activity
-            android:name=".appview.splash.SplashActivity"
-            android:theme="@style/AppTheme.Dark">
+            android:name=".appview.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,13 +35,32 @@
         </activity>
         <activity
             android:name=".appview.home.HomeActivity"
-            android:label="@string/title_activity_restaurant"
-            android:parentActivityName=".appview.MainActivity"
-            android:theme="@style/AppTheme.Dark">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sa.restaurant.appview.MainActivity" />
+            android:label="@string/title_activity_restaurant">
         </activity>
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider{2079618758966731}"
+            android:exported="false" />
+
     </application>
 
 </manifest>
