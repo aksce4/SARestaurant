@@ -8,8 +8,11 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="196dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="6dp"
         android:theme="@style/AppTheme.Dark"
         app:cardBackgroundColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +39,7 @@
                 android:id="@+id/txt_restaurant_name"
                 android:layout_width="323dp"
                 android:layout_height="43dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/txt_res_name"
@@ -45,23 +48,21 @@
                 android:textColor="@color/jet"
                 app:layout_constraintEnd_toStartOf="@+id/toggleButton"
                 app:layout_constraintHorizontal_bias="0.382"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/txt_restaurant_address"
-                android:layout_width="225dp"
+                android:layout_width="210dp"
                 android:layout_height="106dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/txt_restaurant_address"
                 android:textAlignment="center"
                 android:textColor="@color/jet"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/img_restaurant"
                 app:layout_constraintTop_toBottomOf="@+id/txt_restaurant_name" />
 
@@ -70,7 +71,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/ic_restaurant_fav_off"
@@ -81,7 +82,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/txt_restaurant_name"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.104" />
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -30,6 +30,7 @@ import com.sa.restaurant.utils.FragmentUtils
 import com.sa.restaurant.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
+import kotlinx.android.synthetic.main.content_home.*
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationCommunication {
 
@@ -129,8 +130,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.maps -> {
                 supportActionBar!!.title = "Location"
                 if (mapPresenterImpl.checkService(this)){
-                    //FragmentUtils.replaceFragment(supportFragmentManager, mapFragment, R.id.content_home_holder, this)
-                    FragmentUtils.addFragWithBackStack(supportFragmentManager, mapFragment, this,R.id.content_home_holder)
+                    if(content_home_holder == null){
+                        FragmentUtils.addFragWithBackStack(supportFragmentManager, mapFragment, this,R.id.content_home_holder)
+                    }else{
+                        FragmentUtils.removeFragment(supportFragmentManager, RestaurantFragment())
+                        FragmentUtils.removeFragment(supportFragmentManager, FavoriteFragment())
+                        FragmentUtils.replaceFragment(supportFragmentManager, mapFragment, R.id.content_home_holder, this)
+                    }
+
                 }
                 return true
             }
@@ -143,36 +150,34 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_home -> {
                 supportActionBar!!.title = "Restaurants"
-                fav = false
-                weather = false
-                if (!restora){
-                    FragmentUtils.removeFragment(supportFragmentManager, FavoriteFragment())
-                    //  FragmentUtils.removeFragment(supportFragmentManager, weatherFragment)
-                    FragmentUtils.addFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
-                    restora = true
-                }else{
 
+                if (content_home_holder == null){
+                    FragmentUtils.addFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
+                }else{
+                    FragmentUtils.removeFragment(supportFragmentManager, FavoriteFragment())
+                    FragmentUtils.removeFragment(supportFragmentManager, MapFragment())
+                    //  FragmentUtils.removeFragment(supportFragmentManager, weatherFragment)
+                    FragmentUtils.replaceFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
                 }
-               // FragmentUtils.replaceFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
             }
             R.id.nav_favourite -> {
                 supportActionBar!!.title = "Favourite Restaurants"
-                restora = false
-                weather = false
-                if(!fav){
-                    FragmentUtils.removeFragment(supportFragmentManager, mapFragment)
-                    //  FragmentUtils.removeFragment(supportFragmentManager, weatherFragment)
+                if (content_home_holder == null){
                     FragmentUtils.addFragment(supportFragmentManager, FavoriteFragment(), R.id.content_home_holder, this)
-                    fav = true
                 }else{
-
+                    FragmentUtils.removeFragment(supportFragmentManager, RestaurantFragment())
+                    FragmentUtils.removeFragment(supportFragmentManager, MapFragment())
+                    //  FragmentUtils.removeFragment(supportFragmentManager, weatherFragment)
+                    FragmentUtils.replaceFragment(supportFragmentManager, FavoriteFragment(), R.id.content_home_holder, this)
                 }
-              // FragmentUtils.replaceFragment(supportFragmentManager, FavoriteFragment(), R.id.content_home_holder, this )
             }
             R.id.nav_weather -> {
                 supportActionBar!!.title = "Weather"
             }
             R.id.nav_logout -> {
+                FragmentUtils.removeFragment(supportFragmentManager, MapFragment())
+                FragmentUtils.removeFragment(supportFragmentManager, RestaurantFragment())
+                FragmentUtils.removeFragment(supportFragmentManager, FavoriteFragment())
                 var intent: Intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
