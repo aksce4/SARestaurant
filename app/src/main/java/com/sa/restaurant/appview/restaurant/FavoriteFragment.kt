@@ -12,8 +12,8 @@ import androidx.room.Room
 import com.google.android.gms.maps.model.LatLng
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.home.HomeActivity
-import com.sa.restaurant.appview.location.LocationCommunication
 import com.sa.restaurant.appview.restaurant.adapter.FavoriteListAdapter
+import com.sa.restaurant.appview.restaurant.presenter.LocationData
 import com.sa.restaurant.appview.restaurant.presenter.RestaurantPresenterImp
 import com.sa.restaurant.appview.roomdatabase.model.FavoriteRestaurantTable
 import com.sa.restaurant.appview.roomdatabase.MyDatabase
@@ -27,13 +27,13 @@ class FavoriteFragment: Fragment() {
     lateinit var userDataBase: MyDatabase
     var listOfPlacesLocation: ArrayList<LatLng> = ArrayList()
     lateinit var restaurantPresenterImp: RestaurantPresenterImp
-    lateinit var locationCommunication: LocationCommunication
+    lateinit var locationData: LocationData
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
         homeActivity.supportActionBar?.show()
-        locationCommunication = homeActivity
+        locationData = homeActivity
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,7 +50,7 @@ class FavoriteFragment: Fragment() {
 
         val layout = LinearLayoutManager(activity)
         listOfPlacesLocation = restaurantPresenterImp.getListOfFavLocations(userDataBase.favoriteRestaurantDao().getAll() as ArrayList<FavoriteRestaurantTable>)
-        locationCommunication.sendLocationFromRestaurant(listOfPlacesLocation)
+        locationData.sendLocationFromRestaurant(listOfPlacesLocation)
         recyclerview.adapter = FavoriteListAdapter(userDataBase.favoriteRestaurantDao().getAll(), homeActivity, userDataBase)
         recyclerview.layoutManager = layout
 

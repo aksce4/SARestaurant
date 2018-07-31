@@ -1,7 +1,6 @@
 package com.sa.restaurant.appview.home
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.location.Location
@@ -13,26 +12,24 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewGroup
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.MainActivity
-import com.sa.restaurant.appview.location.GetLocation
-import com.sa.restaurant.appview.location.GetLocationImpl
-import com.sa.restaurant.appview.location.LocationCommunication
 import com.sa.restaurant.appview.map.MapFragment
 import com.sa.restaurant.appview.map.presenter.MapPresenterImpl
 import com.sa.restaurant.appview.restaurant.FavoriteFragment
 import com.sa.restaurant.appview.restaurant.RestaurantFragment
+import com.sa.restaurant.appview.restaurant.presenter.LocationData
+import com.sa.restaurant.appview.restaurant.presenter.LocationDataImpl
 import com.sa.restaurant.utils.FragmentUtils
 import com.sa.restaurant.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_home.*
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationCommunication {
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationData {
 
     var listOfLocations: java.util.ArrayList<LatLng> = java.util.ArrayList()
     lateinit var mapPresenterImpl: MapPresenterImpl
@@ -50,9 +47,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.listOfLocations = listOfLocations
     }
 
-    override fun getLocationFromRestaurant(): java.util.ArrayList<LatLng> {
+    override fun sendLocation(listener: LocationData.OnReceiveLocation) {
+
+    }
+
+    override fun getLocationFromRestaurant(): ArrayList<LatLng> {
         return listOfLocations
     }
+
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +72,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        var getLocation = GetLocationImpl(granted, mFusedLocationProviderClient, this)
-        getLocation.sendLocation(object: GetLocation.OnReceiveLocation{
+        var getLocation = LocationDataImpl(granted, mFusedLocationProviderClient, this)
+        getLocation.sendLocation(object: LocationData.OnReceiveLocation{
             override fun getDeviceLastLocation(location: Location) {
                 Log.d(TAG, "getDeviceLastLocation: $location ");
             }

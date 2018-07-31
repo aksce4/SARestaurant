@@ -16,14 +16,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.home.HomeActivity
-import com.sa.restaurant.appview.location.GetLocation
-import com.sa.restaurant.appview.location.GetLocationImpl
-import com.sa.restaurant.appview.location.LocationCommunication
 import com.sa.restaurant.appview.restaurant.adapter.RestaurantListAdapter
 import com.sa.restaurant.appview.restaurant.model.ResponseModelClass
+import com.sa.restaurant.appview.restaurant.presenter.LocationData
+import com.sa.restaurant.appview.restaurant.presenter.LocationDataImpl
 import com.sa.restaurant.appview.restaurant.presenter.RestaurantPresenterImp
 import com.sa.restaurant.appview.roomdatabase.MyDatabase
-import com.sa.restaurant.utils.PermissionUtils
 import kotlinx.android.synthetic.main.fragment_restaurant.*
 import restaurant.sa.com.sarestaurant.appview.restaurant.GooglePlacesClient
 import retrofit2.Call
@@ -39,13 +37,11 @@ class RestaurantFragment : Fragment(){
     lateinit var homeActivity: HomeActivity
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     lateinit var userDataBase: MyDatabase
-    var permissionList = arrayListOf<String>(android.Manifest.permission.ACCESS_FINE_LOCATION,
-            android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
     var granted = false
     lateinit var listOfPlacesLocation: ArrayList<LatLng>
     lateinit var restaurantPresenterImp: RestaurantPresenterImp
-    lateinit var locationCommunication: LocationCommunication
+    lateinit var locationCommunication: LocationData
     lateinit var contextRestFrag: Context
     val result_type = "restaurant"
     val radius = 2500
@@ -67,20 +63,13 @@ class RestaurantFragment : Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        var permissionUtils = PermissionUtils(homeActivity)
-//        granted = permissionUtils.checkPermissions(permissionList)
+
         restaurantPresenterImp = RestaurantPresenterImp()
         granted = true
 
-//        Log.e(TAG, "onCreate: $granted")
-
-//        if(!granted){
-//            permissionUtils.askForPermissions()
-//        }
-
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(homeActivity)
-        var getLocation = GetLocationImpl(granted, mFusedLocationProviderClient, contextRestFrag)
-        getLocation.sendLocation(object: GetLocation.OnReceiveLocation{
+        var getLocation = LocationDataImpl(granted, mFusedLocationProviderClient, contextRestFrag)
+        getLocation.sendLocation(object: LocationData.OnReceiveLocation{
             override fun getDeviceLastLocation(location: Location) {
                 Log.e(TAG, "getDeviceLastLocation: $location Mil");
                 currentLocation = location
