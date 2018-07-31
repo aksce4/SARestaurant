@@ -54,21 +54,10 @@ class RestaurantListAdapter(var items: ResponseModelClass, var favItems: List<Fa
             val photoReference = items.results!![holder.adapterPosition].photos!![0].photoReference
             holder.restaurantImgUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=$photoReference&sensor=false&key=${context.resources.getString(R.string.google_map_API_key)}"
         }else{
-            holder.restaurantImgUrl = "https://www.aubreydaniels.com/sites/default/files/default_images/x2017-05-15_18.png.pagespeed.ic.tLD9q0ZZph.png"
+            holder.restaurantImgUrl = "http://2016.foodhawkers.co.uk/list-traders-profile.php?profileID=2344"
         }
         Picasso.get().load(holder.restaurantImgUrl)
                 .into(holder.restaurantImage)
-
-//        holder.sharePost.setOnClickListener {
-//
-//            val shareIntent = Plush.Builder(context as HomeActivity)
-//                    .setType("text/plain")
-//                    .setText("Welcome to the Google+ platform.")
-//                    .setContentUrl(Uri.parse("https://developers.google.com/+/"))
-//                    .getIntent()
-//
-//            startActivityForResult(context as HomeActivity, shareIntent, 1, null)
-//        }
 
         for (i in favItems){
             if(items.results!![holder.adapterPosition].name == i.restaurantName

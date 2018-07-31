@@ -35,7 +35,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RestaurantFragment : Fragment(){
 
-    val BASE_URL = "https://maps.googleapis.com"
     val TAG = "RestaurantFragment"
     lateinit var homeActivity: HomeActivity
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
@@ -49,7 +48,7 @@ class RestaurantFragment : Fragment(){
     lateinit var locationCommunication: LocationCommunication
     lateinit var contextRestFrag: Context
     val result_type = "restaurant"
-    val radius = 2000
+    val radius = 2500
     val sensor = true
     var currentLocation: Location? = null
 
@@ -115,7 +114,7 @@ class RestaurantFragment : Fragment(){
 
     fun retrofitCall(location: Location?){
         var builder = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl("https://maps.googleapis.com")
                 .addConverterFactory(GsonConverterFactory.create())
 
         var retrofit: Retrofit = builder.build()

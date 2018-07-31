@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_restaurant.*
 
 class FavoriteFragment: Fragment() {
 
-    val BASE_URL = "https://maps.googleapis.com"
     val TAG = "RestaurantFragment"
     lateinit var homeActivity: HomeActivity
     lateinit var userDataBase: MyDatabase
@@ -43,7 +42,7 @@ class FavoriteFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        userDataBase = Room.databaseBuilder(homeActivity, MyDatabase::class.java, "User-db")
+        userDataBase = Room.databaseBuilder(homeActivity, MyDatabase::class.java, "AppData")
                 .fallbackToDestructiveMigration()
                 .allowMainThreadQueries().build()
         restaurantPresenterImp = RestaurantPresenterImp()
