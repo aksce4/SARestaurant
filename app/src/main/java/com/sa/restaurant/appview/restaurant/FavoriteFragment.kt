@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.sa.restaurant.R
 import com.sa.restaurant.appview.home.HomeActivity
 import com.sa.restaurant.appview.restaurant.adapter.FavoriteListAdapter
+import com.sa.restaurant.appview.restaurant.presenter.LocationCommunication
 import com.sa.restaurant.appview.restaurant.presenter.LocationData
 import com.sa.restaurant.appview.restaurant.presenter.RestaurantPresenterImp
 import com.sa.restaurant.appview.roomdatabase.model.FavoriteRestaurantTable
@@ -27,7 +28,7 @@ class FavoriteFragment: Fragment() {
     lateinit var userDataBase: MyDatabase
     var listOfPlacesLocation: ArrayList<LatLng> = ArrayList()
     lateinit var restaurantPresenterImp: RestaurantPresenterImp
-    lateinit var locationData: LocationData
+    lateinit var locationData: LocationCommunication
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

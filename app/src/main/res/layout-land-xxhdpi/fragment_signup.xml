@@ -15,7 +15,7 @@
 
     <ImageView
         android:id="@+id/fragment_signup_img_logo"
-        android:layout_width="352dp"
+        android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="52dp"
@@ -29,7 +29,7 @@
     <!-- Name Label -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_signup_txt_inputlayout_name"
-        android:layout_width="352dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
@@ -52,7 +52,7 @@
     <!-- username Label -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_signup_txt_inputlayout_username"
-        android:layout_width="352dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
@@ -75,7 +75,7 @@
     <!-- Password Label -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_signup_txt_inputlayout_password"
-        android:layout_width="352dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
@@ -99,7 +99,7 @@
     <!-- Email Label -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_signup_txt_inputlayout_email"
-        android:layout_width="352dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
@@ -122,7 +122,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fragment_signup_btn_appcompact"
-        android:layout_width="352dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
@@ -135,7 +135,7 @@
 
     <TextView
         android:id="@+id/fragment_signup_txt_signin"
-        android:layout_width="352dp"
+        android:layout_width="match_parent"
         android:layout_height="47dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"

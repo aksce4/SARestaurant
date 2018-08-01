@@ -9,11 +9,11 @@ import androidx.fragment.app.FragmentTransaction
 
 object FragmentUtils {
 
-    fun addFragment(fragmentManager: FragmentManager, fragment: Fragment, id: Int, context: Context){
+    fun addFragment(fragmentManager: FragmentManager, fragment: Fragment, id: Int){
         callMethod(fragmentManager).add(id, fragment).commit()
     }
 
-    fun replaceFragment(fragmentManager: FragmentManager, fragment: Fragment, id: Int, context: Context){
+    fun replaceFragment(fragmentManager: FragmentManager, fragment: Fragment, id: Int){
         callMethod(fragmentManager).addToBackStack(null).replace(id, fragment).commit()
     }
 
@@ -21,7 +21,7 @@ object FragmentUtils {
         callMethod(fragmentManager).remove(fragment).commit()
     }
 
-    fun addFragWithBackStack(fragmentManager: FragmentManager, fragment: Fragment, context: Context, id: Int){
+    fun addFragWithBackStack(fragmentManager: FragmentManager, fragment: Fragment, id: Int){
         callMethod(fragmentManager).addToBackStack(null).add(id, fragment).commit()
     }
 

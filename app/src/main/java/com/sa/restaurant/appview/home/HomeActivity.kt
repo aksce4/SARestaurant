@@ -12,24 +12,29 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.sa.restaurant.R
+import com.sa.restaurant.R.id.txt_header_name
 import com.sa.restaurant.appview.MainActivity
 import com.sa.restaurant.appview.map.MapFragment
 import com.sa.restaurant.appview.map.presenter.MapPresenterImpl
 import com.sa.restaurant.appview.restaurant.FavoriteFragment
 import com.sa.restaurant.appview.restaurant.RestaurantFragment
+import com.sa.restaurant.appview.restaurant.presenter.LocationCommunication
 import com.sa.restaurant.appview.restaurant.presenter.LocationData
 import com.sa.restaurant.appview.restaurant.presenter.LocationDataImpl
+import com.sa.restaurant.appview.weather.WeatherFragment
 import com.sa.restaurant.utils.FragmentUtils
 import com.sa.restaurant.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_home.*
+import kotlinx.android.synthetic.main.nav_header_restaurant.*
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationData {
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationCommunication {
 
     var listOfLocations: java.util.ArrayList<LatLng> = java.util.ArrayList()
     lateinit var mapPresenterImpl: MapPresenterImpl
@@ -39,16 +44,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     val TAG = "HomeActivity"
-    var fav: Boolean = false
-    var restora: Boolean = false
-    var weather: Boolean = false
 
-    override fun sendLocationFromRestaurant(listOfLocations: java.util.ArrayList<LatLng>) {
+    override fun sendLocationFromRestaurant(listOfLocations: ArrayList<LatLng>) {
+        Log.e(TAG, ": ${listOfLocations}");
         this.listOfLocations = listOfLocations
-    }
-
-    override fun sendLocation(listener: LocationData.OnReceiveLocation) {
-
     }
 
     override fun getLocationFromRestaurant(): ArrayList<LatLng> {
@@ -95,18 +94,15 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        FragmentUtils.replaceFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
+        FragmentUtils.replaceFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder)
         //set user info into navigation bar
-        var shared: SharedPreferences = this.getSharedPreferences("UserInfo", 0)
-        var Name: String = shared.getString("name", "name")
-     //   var Name = shared.getString("name","")
-        var Email = shared.getString("email", "email")
+        var shared: SharedPreferences = this@HomeActivity.getSharedPreferences("UserInfo", 0)
+        var Username: String = shared.getString("username",null)
+        var Email: String = shared.getString("email", null)
 
-        Log.d("TAG", "$Name $Email")
-
-//        txt_header_name.setText(Name)
-//        txt_header_email.setText(Email)
-
+        Toast.makeText(this, "Username: $Username Email: $Email", Toast.LENGTH_SHORT).show()
+        //txt_header_name.text = Username
+        //txt_header_email.text = Email
 
     }
 
@@ -133,11 +129,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportActionBar!!.title = "Location"
                 if (mapPresenterImpl.checkService(this)){
                     if(content_home_holder == null){
-                        FragmentUtils.addFragWithBackStack(supportFragmentManager, mapFragment, this,R.id.content_home_holder)
+                        FragmentUtils.addFragWithBackStack(supportFragmentManager, mapFragment,R.id.content_home_holder)
                     }else{
                         FragmentUtils.removeFragment(supportFragmentManager, RestaurantFragment())
                         FragmentUtils.removeFragment(supportFragmentManager, FavoriteFragment())
-                        FragmentUtils.replaceFragment(supportFragmentManager, mapFragment, R.id.content_home_holder, this)
+                        FragmentUtils.replaceFragment(supportFragmentManager, mapFragment, R.id.content_home_holder)
                     }
 
                 }
@@ -154,32 +150,41 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportActionBar!!.title = "Restaurants"
 
                 if (content_home_holder == null){
-                    FragmentUtils.addFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
+                    FragmentUtils.addFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder)
                 }else{
                     FragmentUtils.removeFragment(supportFragmentManager, FavoriteFragment())
                     FragmentUtils.removeFragment(supportFragmentManager, MapFragment())
-                    //  FragmentUtils.removeFragment(supportFragmentManager, weatherFragment)
-                    FragmentUtils.replaceFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder, this)
+                    FragmentUtils.removeFragment(supportFragmentManager, WeatherFragment())
+                    FragmentUtils.replaceFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder)
                 }
             }
             R.id.nav_favourite -> {
                 supportActionBar!!.title = "Favourite Restaurants"
                 if (content_home_holder == null){
-                    FragmentUtils.addFragment(supportFragmentManager, FavoriteFragment(), R.id.content_home_holder, this)
+                    FragmentUtils.addFragment(supportFragmentManager, FavoriteFragment(), R.id.content_home_holder)
                 }else{
                     FragmentUtils.removeFragment(supportFragmentManager, RestaurantFragment())
                     FragmentUtils.removeFragment(supportFragmentManager, MapFragment())
-                    //  FragmentUtils.removeFragment(supportFragmentManager, weatherFragment)
-                    FragmentUtils.replaceFragment(supportFragmentManager, FavoriteFragment(), R.id.content_home_holder, this)
+                    FragmentUtils.removeFragment(supportFragmentManager, WeatherFragment())
+                    FragmentUtils.replaceFragment(supportFragmentManager, FavoriteFragment(), R.id.content_home_holder)
                 }
             }
             R.id.nav_weather -> {
                 supportActionBar!!.title = "Weather"
+                if (content_home_holder == null){
+                    FragmentUtils.addFragment(supportFragmentManager, WeatherFragment(), R.id.content_home_holder)
+                }else{
+                    FragmentUtils.removeFragment(supportFragmentManager, RestaurantFragment())
+                    FragmentUtils.removeFragment(supportFragmentManager, FavoriteFragment())
+                    FragmentUtils.removeFragment(supportFragmentManager, MapFragment())
+                    FragmentUtils.replaceFragment(supportFragmentManager, WeatherFragment(), R.id.content_home_holder)
+                }
             }
             R.id.nav_logout -> {
                 FragmentUtils.removeFragment(supportFragmentManager, MapFragment())
                 FragmentUtils.removeFragment(supportFragmentManager, RestaurantFragment())
                 FragmentUtils.removeFragment(supportFragmentManager, FavoriteFragment())
+                FragmentUtils.removeFragment(supportFragmentManager, WeatherFragment())
                 var intent: Intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }

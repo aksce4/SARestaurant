@@ -16,7 +16,4 @@ interface LocationData {
 
     fun sendLocation(listener: OnReceiveLocation)
 
-    fun sendLocationFromRestaurant(listOfLocations:ArrayList<LatLng>)
-
-    fun getLocationFromRestaurant(): ArrayList<LatLng>
 }

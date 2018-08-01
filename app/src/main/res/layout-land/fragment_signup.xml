@@ -1,154 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="16dp">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/fragment_signin_constraintlayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_signin_constraintlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/fragment_signup_img_logo"
-        android:layout_width="352dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo"
-        android:contentDescription="@string/todo" />
-
-    <!-- Name Label -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_signup_txt_inputlayout_name"
-        android:layout_width="352dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_signup_img_logo">
-
-        <EditText
-            android:id="@+id/fragment_signup_edt_name"
+        <ImageView
+            android:id="@+id/fragment_signup_img_logo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/name"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            tools:targetApi="o" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="72dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="52dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/todo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo" />
 
-    <!-- username Label -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_signup_txt_inputlayout_username"
-        android:layout_width="352dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_signup_txt_inputlayout_name">
-
-        <EditText
-            android:id="@+id/fragment_signup_edt_username"
+        <!-- Name Label -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_signup_txt_inputlayout_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/username"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:targetApi="o" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_signup_img_logo">
 
-    <!-- Password Label -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_signup_txt_inputlayout_password"
-        android:layout_width="352dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_signup_txt_inputlayout_username">
+            <EditText
+                android:id="@+id/fragment_signup_edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                tools:targetApi="o" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/fragment_signup_edt_password"
+        <!-- username Label -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_signup_txt_inputlayout_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            tools:targetApi="o" />
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_signup_txt_inputlayout_name">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/fragment_signup_edt_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/username"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:targetApi="o" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Email Label -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_signup_txt_inputlayout_email"
-        android:layout_width="352dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_signup_txt_inputlayout_password">
-
-        <EditText
-            android:id="@+id/fragment_signup_edt_email"
+        <!-- Password Label -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_signup_txt_inputlayout_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/email"
-            android:importantForAutofill="no"
-            android:inputType="textEmailAddress"
-            tools:targetApi="o" />
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_signup_txt_inputlayout_username">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/fragment_signup_edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                tools:targetApi="o" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/fragment_signup_btn_appcompact"
-        android:layout_width="352dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/signup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_signup_txt_inputlayout_email" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/fragment_signup_txt_signin"
-        android:layout_width="352dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:text="@string/login_link"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_signup_btn_appcompact" />
+        <!-- Email Label -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_signup_txt_inputlayout_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_signup_txt_inputlayout_password">
+
+            <EditText
+                android:id="@+id/fragment_signup_edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                tools:targetApi="o" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/fragment_signup_btn_appcompact"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/signup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_signup_txt_inputlayout_email" />
+
+        <TextView
+            android:id="@+id/fragment_signup_txt_signin"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="@string/login_link"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_signup_btn_appcompact" />
 
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

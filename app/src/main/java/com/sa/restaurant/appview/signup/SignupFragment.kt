@@ -21,6 +21,11 @@ import kotlinx.android.synthetic.main.fragment_signup.*
 class SignupFragment: Fragment(), SignupView{
 
     lateinit var myDatabase: MyDatabase
+    lateinit var name: String
+    lateinit var username: String
+    lateinit var email: String
+    lateinit var  password: String
+    var valid: Boolean = false
 
     //onCreateView method is called when Fragment should create its View object
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -35,14 +40,18 @@ class SignupFragment: Fragment(), SignupView{
 
         fragment_signup_txt_signin.setOnClickListener {
             var loginFragment: LoginFragment = LoginFragment()
-            FragmentUtils.replaceFragment(fragmentManager!!, loginFragment, R.id.framelayout_main, activity!!)
+            FragmentUtils.replaceFragment(fragmentManager!!, loginFragment, R.id.framelayout_main)
         }
 
         fragment_signup_btn_appcompact.setOnClickListener {
-            var name: String = fragment_signup_edt_name.text.toString()
-            var username: String = fragment_signup_edt_username.text.toString()
-            var email: String = fragment_signup_edt_email.text.toString()
-            var password: String = fragment_signup_edt_password.text.toString()
+            name = fragment_signup_edt_name.text.toString()
+            username = fragment_signup_edt_username.text.toString()
+            email = fragment_signup_edt_email.text.toString()
+            password= fragment_signup_edt_password.text.toString()
+
+            if (valid){
+               validation()
+            }
 
             var signupPresenter: SignupPresenter = SignupPresenterImpl()
             signupPresenter.checkUser(name, username, password, email, myDatabase, activity!!, fragmentManager!!)
@@ -55,8 +64,40 @@ class SignupFragment: Fragment(), SignupView{
 
         Toast.makeText(activity, "Register Successfully..!!", Toast.LENGTH_SHORT).show()
 
-        FragmentUtils.replaceFragment(fragmentManager, loginFragment, R.id.framelayout_main, activity)
+        FragmentUtils.replaceFragment(fragmentManager, loginFragment, R.id.framelayout_main)
     }
+
+    fun validation(): Boolean{
+        valid = true
+
+        if(name.isEmpty()){
+            fragment_signup_edt_username.setError("Please Enter Name")
+        }else{
+            fragment_signup_edt_username.setError(null)
+        }
+
+        if(username.isEmpty()){
+            fragment_signup_edt_username.setError("Please Enter Username")
+        }else{
+            fragment_signup_edt_username.setError(null)
+        }
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            fragment_signup_edt_email.setError("enter a valid email address");
+        } else {
+            fragment_signup_edt_email.setError(null);
+        }
+
+
+        if (password.isEmpty() || password.length < 4 || password.length > 10) {
+            fragment_signup_edt_password.setError("Between 4 and 10 alphanumeric characters");
+        } else {
+            fragment_signup_edt_password.setError(null);
+        }
+
+        return valid
+    }
+
 
 
 

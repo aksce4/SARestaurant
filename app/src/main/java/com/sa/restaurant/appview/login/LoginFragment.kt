@@ -93,12 +93,25 @@ class LoginFragment: Fragment(), LoginView{
 
         fragment_signin_txt_signup.setOnClickListener {
             var signupFragment: SignupFragment = SignupFragment()
-            FragmentUtils.replaceFragment(fragmentManager!!, signupFragment, R.id.framelayout_main, activity!!)
+            FragmentUtils.replaceFragment(fragmentManager!!, signupFragment, R.id.framelayout_main)
         }
 
         fragment_signin_btn_appcompact.setOnClickListener {
             var username: String = fragment_signin_edt_name.text.toString()
             var password: String = fragment_signin_edt_password.text.toString()
+
+            if(username.isEmpty()){
+                fragment_signin_edt_name.setError("Please Enter Username")
+            }else{
+                fragment_signin_edt_name.setError(null)
+            }
+
+
+            if (password.isEmpty() || password.length < 4 || password.length > 10) {
+                fragment_signin_edt_password.setError("Between 4 and 10 alphanumeric characters");
+            } else {
+                fragment_signin_edt_password.setError(null);
+            }
 
             loginPresenter = LoginPresenterImpl()
 

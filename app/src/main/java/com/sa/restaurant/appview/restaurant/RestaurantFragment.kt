@@ -18,6 +18,7 @@ import com.sa.restaurant.R
 import com.sa.restaurant.appview.home.HomeActivity
 import com.sa.restaurant.appview.restaurant.adapter.RestaurantListAdapter
 import com.sa.restaurant.appview.restaurant.model.ResponseModelClass
+import com.sa.restaurant.appview.restaurant.presenter.LocationCommunication
 import com.sa.restaurant.appview.restaurant.presenter.LocationData
 import com.sa.restaurant.appview.restaurant.presenter.LocationDataImpl
 import com.sa.restaurant.appview.restaurant.presenter.RestaurantPresenterImp
@@ -41,7 +42,7 @@ class RestaurantFragment : Fragment(){
     var granted = false
     lateinit var listOfPlacesLocation: ArrayList<LatLng>
     lateinit var restaurantPresenterImp: RestaurantPresenterImp
-    lateinit var locationCommunication: LocationData
+    var locationCommunication: LocationCommunication? = null
     lateinit var contextRestFrag: Context
     val result_type = "restaurant"
     val radius = 2500
@@ -120,7 +121,7 @@ class RestaurantFragment : Fragment(){
                 Log.d(TAG, "onResponse: ${responseModelClass!!.body()}")
                 val layout = LinearLayoutManager(activity)
                 listOfPlacesLocation = restaurantPresenterImp.getListOfLocations(responseModelClass.body()!!)
-                locationCommunication.sendLocationFromRestaurant(listOfPlacesLocation)
+                locationCommunication!!.sendLocationFromRestaurant(listOfPlacesLocation)
                 recyclerview.adapter = RestaurantListAdapter(responseModelClass.body()!!, userDataBase.favoriteRestaurantDao().getAll(), homeActivity, userDataBase)
                 recyclerview.layoutManager = layout
             }

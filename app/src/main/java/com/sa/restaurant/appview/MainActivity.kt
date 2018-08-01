@@ -21,7 +21,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var loginFragment: LoginFragment = LoginFragment()
-        FragmentUtils.addFragment(supportFragmentManager, loginFragment, R.id.framelayout_main, this)
+
+        if(framelayout_main == null){
+            FragmentUtils.addFragment(supportFragmentManager, loginFragment, R.id.framelayout_main)
+        }else{
+            FragmentUtils.removeFragment(supportFragmentManager, SignupFragment())
+            FragmentUtils.replaceFragment(supportFragmentManager, loginFragment, R.id.framelayout_main)
+        }
+
     }
 
 

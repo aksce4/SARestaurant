@@ -1,5 +1,6 @@
 package com.sa.restaurant.appview.map
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
@@ -20,10 +21,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.sa.restaurant.R
+import com.sa.restaurant.appview.home.HomeActivity
+import com.sa.restaurant.appview.restaurant.presenter.LocationCommunication
+import com.sa.restaurant.appview.restaurant.presenter.LocationData
 import kotlinx.android.synthetic.main.fragment_map.*
 import java.util.*
 
 class MapFragment: Fragment(),  OnMapReadyCallback{
+
 
     val FINE_LOCATION: String = android.Manifest.permission.ACCESS_FINE_LOCATION
     val COARSE_LOCATION: String = android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -35,6 +40,9 @@ class MapFragment: Fragment(),  OnMapReadyCallback{
     val DEFAULT_ZOOM:Float = 15f
     lateinit var f_View: View
     var m_View: MapView? = null
+    var listOfLocations: ArrayList<LatLng> = ArrayList()
+    lateinit var locationData: LocationCommunication
+    lateinit var homeActivity: HomeActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         f_View =  inflater.inflate(R.layout.fragment_map, container, false)
@@ -45,6 +53,7 @@ class MapFragment: Fragment(),  OnMapReadyCallback{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        listOfLocations = locationData.getLocationFromRestaurant()
         getLocationPermission()
 
         fragment_map_btn_changemap.setOnClickListener {
@@ -58,15 +67,21 @@ class MapFragment: Fragment(),  OnMapReadyCallback{
         }
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        homeActivity = context as HomeActivity
+        locationData = homeActivity
+    }
+
     private fun changeMapType() {
         fun rand(a: Int, b: Int) = Random().nextInt(b + 1 - a) + a
 
         when (rand(0, 4)) {
-            0 -> mMap?.mapType = GoogleMap.MAP_TYPE_NONE
-            1 -> mMap?.mapType = GoogleMap.MAP_TYPE_SATELLITE
-            2 -> mMap?.mapType = GoogleMap.MAP_TYPE_HYBRID
-            3 -> mMap?.mapType = GoogleMap.MAP_TYPE_TERRAIN
-            4 -> mMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+            0 -> mMap.mapType = GoogleMap.MAP_TYPE_NONE
+            1 -> mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+            2 -> mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+            3 -> mMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            4 -> mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
             else -> Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
         }
     }
@@ -76,7 +91,7 @@ class MapFragment: Fragment(),  OnMapReadyCallback{
         Toast.makeText(activity,"Map is Ready", Toast.LENGTH_SHORT).show()
 
         try{
-            var success: Boolean = p0!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity, R.raw.style_json))
+            var success: Boolean = p0.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity, R.raw.style_json))
 
             if(!success){
                 Log.e(TAG, "style parsing failed")
@@ -95,11 +110,27 @@ class MapFragment: Fragment(),  OnMapReadyCallback{
                 return
             }
 
-            mMap?.isMyLocationEnabled = true
-            mMap?.uiSettings?.isMyLocationButtonEnabled = false
+            mMap.isMyLocationEnabled = true
+            mMap.uiSettings?.isMyLocationButtonEnabled = false
+
+            restaurantMarkers()
 
         }
 
+    }
+
+    private fun restaurantMarkers() {
+        var restaurant_icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurant_marker)
+        var option = MarkerOptions()
+
+        if(listOfLocations.isEmpty()){
+            for (i in listOfLocations){
+                option.position(i).icon(restaurant_icon)
+                mMap.addMarker(option)
+            }
+        }else{
+            Toast.makeText(this.activity, "Empty..!!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun getDeviceLocation() {
@@ -129,14 +160,12 @@ class MapFragment: Fragment(),  OnMapReadyCallback{
 
     private fun moveCamera(latLng: LatLng, zoom: Float, title: String) {
         Log.e(TAG, "movecamera: Moving the camera to: lat: ${latLng.latitude} , lag: ${latLng.longitude}")
-        mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom))
 
-        var c_icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker)
+        var c_icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_current_marker)
+        var options: MarkerOptions = MarkerOptions().position(latLng).title(title).icon(c_icon)
+        mMap.addMarker(options)
 
-        if (!title.equals("My Location")){
-            var options: MarkerOptions = MarkerOptions().position(latLng).title(title).icon(c_icon)
-            mMap?.addMarker(options)
-        }
 
 
     }
@@ -166,8 +195,6 @@ class MapFragment: Fragment(),  OnMapReadyCallback{
         m_View?.onCreate(null)
         m_View?.onResume()
         m_View?.getMapAsync(this)
-
-
     }
 
 

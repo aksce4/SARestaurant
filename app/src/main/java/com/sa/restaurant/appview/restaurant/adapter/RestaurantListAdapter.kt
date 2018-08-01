@@ -46,7 +46,7 @@ class RestaurantListAdapter(var items: ResponseModelClass, var favItems: List<Fa
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val shareDialog = ShareDialog(context as HomeActivity)
+       // val shareDialog = ShareDialog(context as HomeActivity)
         favoriteRestaurantTable = FavoriteRestaurantTable()
         holder.restaurantAddress.text = items.results!![holder.adapterPosition].vicinity
         holder.restaurantName.text = items.results!![holder.adapterPosition].name

@@ -24,5 +24,6 @@
     <string name="google_place_API_key">AIzaSyBhlgT3QHNx8NzE9yvK4kVQsSyaahXQja8</string>
     <string name="facebook_app_id">2079618758966731</string>
     <string name="fb_login_protocol_scheme">fb2079618758966731</string>
+    <string name="weather_API_key">6cc53e9295eaa5952fbf593861622763</string>
 
 </resources>

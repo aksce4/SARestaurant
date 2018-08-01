@@ -10,20 +10,7 @@ import com.google.android.gms.maps.model.LatLng
 
 class LocationDataImpl(var mLocationPermissionsGranted: Boolean, var mFusedLocationProviderClient: FusedLocationProviderClient, var context: Context): LocationData{
 
-    private var locationRequest: LocationRequest? = null
-    private var locationCallback: LocationCallback? = null
     var currentLocation: Location? = null
-    var listOfLocations: java.util.ArrayList<LatLng> = java.util.ArrayList()
-
-    var getLocation: LocationData? = null
-
-    override fun getLocationFromRestaurant(): ArrayList<LatLng> {
-       return listOfLocations
-    }
-
-    override fun sendLocationFromRestaurant(listOfLocations: ArrayList<LatLng>) {
-        this.listOfLocations = listOfLocations
-    }
 
     override fun sendLocation(listener: LocationData.OnReceiveLocation) {
         try {
