@@ -85,7 +85,13 @@ class WeatherPresenterImpl: WeatherPresenter, GoogleApiClient.ConnectionCallback
     }
 
     fun getWeatherInfo(context: Context, bundle: Bundle, weatherApiClient: WeatherApiClient, view: View) {
+       val url = getWeatherUrl(bundle)
+    }
 
+    fun getWeatherUrl(bundle: Bundle): String {
+        var city = bundle["city"]
+        var placename = bundle["place"]
+        var weatherurl: StringBuilder = StringBuilder()
     }
 
     override fun onConnected(p0: Bundle?) {
