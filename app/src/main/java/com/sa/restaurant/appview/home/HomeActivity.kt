@@ -97,10 +97,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         FragmentUtils.replaceFragment(supportFragmentManager, RestaurantFragment(), R.id.content_home_holder)
         //set user info into navigation bar
         var shared: SharedPreferences = this@HomeActivity.getSharedPreferences("UserInfo", 0)
-        var Username: String = shared.getString("username",null)
-        var Email: String = shared.getString("email", null)
+        //var Username: String = shared.getString("username",null)
+        //var Email: String = shared.getString("email", null)
 
-        Toast.makeText(this, "Username: $Username Email: $Email", Toast.LENGTH_SHORT).show()
+      //  Toast.makeText(this, "Username: $Username Email: $Email", Toast.LENGTH_SHORT).show()
         //txt_header_name.text = Username
         //txt_header_email.text = Email
 

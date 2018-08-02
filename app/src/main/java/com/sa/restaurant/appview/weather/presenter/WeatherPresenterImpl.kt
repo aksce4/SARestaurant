@@ -7,6 +7,7 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationCallback
@@ -17,8 +18,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.sa.restaurant.appview.map.presenter.MapPresenterImpl
 import com.sa.restaurant.appview.weather.WeatherApiClient
 import com.sa.restaurant.appview.weather.WeatherFragment
+import com.sa.restaurant.appview.weather.model.City
+import com.sa.restaurant.appview.weather.model.ListItem
 import com.sa.restaurant.appview.weather.model.Weathers
 import com.sa.restaurant.appview.weather.view.WeatherView
+import retrofit2.Call
+import retrofit2.Response
 import java.util.*
 
 class WeatherPresenterImpl: WeatherPresenter, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
@@ -85,13 +90,51 @@ class WeatherPresenterImpl: WeatherPresenter, GoogleApiClient.ConnectionCallback
     }
 
     fun getWeatherInfo(context: Context, bundle: Bundle, weatherApiClient: WeatherApiClient, view: View) {
-       val url = getWeatherUrl(bundle)
+        val url = getWeatherUrl(bundle)
+        weatherApiClient.getWeatherInfo(url).enqueue(object : retrofit2.Callback<Weathers>{
+            override fun onFailure(call: Call<Weathers>?, t: Throwable?) {
+               Log.e(TAG, "Failed")
+            }
+
+            override fun onResponse(call: Call<Weathers>?, response: Response<Weathers>?) {
+                result = response!!.body()!!
+                Log.e(TAG, "Response: ${result.toString()}")
+
+                if (response!!.body()!! != null){
+                    var city = result.city!!.name
+                    var country = result.city!!.country
+                    var temp = result.list!![1].main.temp
+                    var sky = result.list!![2].weather!![2].description
+                    var  mintemp = result.list!![1].main.tempMin
+                    var maxtemp = result.list!![1].main.tempMax
+                    var icon = result.list!![2].weather!![3].icon
+
+                    var bundle: Bundle = Bundle()
+                    bundle.putString("city", city)
+                    bundle.putString("country", country)
+                    bundle.putString("temp", temp.toString())
+                    bundle.putString("sky", sky)
+                    bundle.putString("mintemp", mintemp.toString())
+                    bundle.putString("maxtemp", maxtemp.toString())
+
+                    Log.e(TAG, "bundle : ${bundle.toString()}")
+
+                    var weatherView: WeatherView = WeatherFragment()
+                    weatherView.sendweatherInfo(bundle, context, view)
+                }else{
+                    Log.e(TAG, "List Not Found - Try Again")
+
+                }
+            }
+
+        })
     }
 
     fun getWeatherUrl(bundle: Bundle): String {
         var city = bundle["city"]
         var placename = bundle["place"]
-        var weatherurl: StringBuilder = StringBuilder()
+        var weatherurl: StringBuilder = StringBuilder("http://api.openweathermap.org/data/2.5/forecast?id=1279233&APPID=6cc53e9295eaa5952fbf593861622763")
+        return weatherurl.toString()
     }
 
     override fun onConnected(p0: Bundle?) {
