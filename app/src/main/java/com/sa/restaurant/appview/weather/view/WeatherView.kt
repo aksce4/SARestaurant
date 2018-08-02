@@ -8,7 +8,7 @@ import com.sa.restaurant.appview.weather.WeatherApiClient
 
 interface WeatherView {
 
-    fun sendlocation(location: Location, context: Context, weatherApiClient: WeatherApiClient, view: View)
+    //fun sendlocation(location: Location, context: Context, weatherApiClient: WeatherApiClient, view: View)
 
     fun sendweatherInfo(bundle: Bundle, context: Context, view: View)
 }

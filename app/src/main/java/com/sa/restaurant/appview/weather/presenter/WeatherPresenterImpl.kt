@@ -53,6 +53,7 @@ class WeatherPresenterImpl: WeatherPresenter, GoogleApiClient.ConnectionCallback
 
 //                var weatherView: WeatherView = WeatherFragment()
 //                weatherView.sendlocation(location!!, activity, weatherApiClient, view)
+                Log.e(TAG, "Location : ${location!!.latitude} ${location!!.longitude}")
             }
 
         }
@@ -60,6 +61,7 @@ class WeatherPresenterImpl: WeatherPresenter, GoogleApiClient.ConnectionCallback
     }
 
     override fun createClient(context: Context): GoogleApiClient {
+        Log.e(TAG, "In createClient")
         var googleApiClient: GoogleApiClient
         synchronized(this){
             googleApiClient = GoogleApiClient.Builder(context).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build()
@@ -68,29 +70,33 @@ class WeatherPresenterImpl: WeatherPresenter, GoogleApiClient.ConnectionCallback
         }
     }
 
-    override fun getNameFromLatLng(location: Location, context: Context, weatherApiClient: WeatherApiClient, view: View) {
-        var geocoder: Geocoder = Geocoder(context, Locale.getDefault())
-        var address: List<Address>
+//    override fun getNameFromLatLng(location: Location, context: Context, weatherApiClient: WeatherApiClient, view: View) {
+//        var geocoder: Geocoder = Geocoder(context, Locale.getDefault())
+//        var address: List<Address>
+//
+//        address = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+//        Log.e(TAG, "Address : ${address.toString()}")
+//
+////        val addres = address[0].getAddressLine(0)
+////        val state = address[0].adminArea
+////        val country = address[0].countryName
+////        val postalcode = address[0].postalCode
+//        val city = address[0].locality
+//        val knownName = address[0].featureName
+//
+//        Log.e(TAG, "Address : ${city} ${knownName}")
+//
+//        var bundle: Bundle = Bundle()
+//        bundle.putString("city", city)
+//        bundle.putString("place", knownName)
+//
+//        getWeatherInfo(context, bundle, weatherApiClient, view)
+//
+//    }
 
-        address = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-
-        val addres = address[0].getAddressLine(0)
-        val city = address[0].locality
-        val state = address[0].adminArea
-        val country = address[0].countryName
-        val postalcode = address[0].postalCode
-        val knownName = address[0].featureName
-
-        var bundle: Bundle = Bundle()
-        bundle.putString("city", city)
-        bundle.putString("place", knownName)
-
-        getWeatherInfo(context, bundle, weatherApiClient, view)
-
-    }
-
-    fun getWeatherInfo(context: Context, bundle: Bundle, weatherApiClient: WeatherApiClient, view: View) {
+    override fun getWeatherInfo(context: Context, bundle: Bundle, weatherApiClient: WeatherApiClient, view: View) {
         val url = getWeatherUrl(bundle)
+        Log.e(TAG, "In $url")
         weatherApiClient.getWeatherInfo(url).enqueue(object : retrofit2.Callback<Weathers>{
             override fun onFailure(call: Call<Weathers>?, t: Throwable?) {
                Log.e(TAG, "Failed")
@@ -103,11 +109,11 @@ class WeatherPresenterImpl: WeatherPresenter, GoogleApiClient.ConnectionCallback
                 if (response!!.body()!! != null){
                     var city = result.city!!.name
                     var country = result.city!!.country
-                    var temp = result.list!![1].main.temp
-                    var sky = result.list!![2].weather!![2].description
-                    var  mintemp = result.list!![1].main.tempMin
-                    var maxtemp = result.list!![1].main.tempMax
-                    var icon = result.list!![2].weather!![3].icon
+                    var temp = result.list!![1].main.temp.minus(273.15).toFloat()
+                    var sky = result.list!![0].weather!![0].description
+                    var  mintemp = result.list!![0].main.tempMin.toFloat()
+                    var maxtemp = result.list!![1].main.tempMax.toFloat()
+                    var icon = result.list!![0].weather!![0].icon
 
                     var bundle: Bundle = Bundle()
                     bundle.putString("city", city)
@@ -116,6 +122,7 @@ class WeatherPresenterImpl: WeatherPresenter, GoogleApiClient.ConnectionCallback
                     bundle.putString("sky", sky)
                     bundle.putString("mintemp", mintemp.toString())
                     bundle.putString("maxtemp", maxtemp.toString())
+                    bundle.putString("icon", icon)
 
                     Log.e(TAG, "bundle : ${bundle.toString()}")
 
@@ -131,8 +138,8 @@ class WeatherPresenterImpl: WeatherPresenter, GoogleApiClient.ConnectionCallback
     }
 
     fun getWeatherUrl(bundle: Bundle): String {
-        var city = bundle["city"]
-        var placename = bundle["place"]
+//        var city = bundle["city"]
+//        var placename = bundle["place"]
         var weatherurl: StringBuilder = StringBuilder("http://api.openweathermap.org/data/2.5/forecast?id=1279233&APPID=6cc53e9295eaa5952fbf593861622763")
         return weatherurl.toString()
     }
