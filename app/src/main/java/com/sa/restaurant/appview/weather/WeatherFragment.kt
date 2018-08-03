@@ -30,13 +30,26 @@ class WeatherFragment: Fragment(), WeatherView{
     lateinit var locationRequest: LocationRequest
     lateinit var locationCallback: LocationCallback
     lateinit var passed_view: View
+    var weatherPresenterImpl: WeatherPresenterImpl = WeatherPresenterImpl()
     val TAG: String = "WeatherFragment"
-    lateinit var getWeatherInfo:String
+    lateinit var getWeatherInfo: String
     var bundle: Bundle = Bundle()
+    lateinit var cityname: String
+    lateinit var countryname: String
+    lateinit var tempvalue: String
+    lateinit var skytype: String
+    lateinit var mintempvalue: String
+    lateinit var maxtempvalue:String
+    var weatherView: WeatherView? = null
 
 //    companion object {
 //        lateinit var dialog: ProgressDialog
 //    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        weatherView = this
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view: View =  inflater.inflate(R.layout.fragment_weather, container, false)
@@ -52,14 +65,13 @@ class WeatherFragment: Fragment(), WeatherView{
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        var weatherPresenter: WeatherPresenter = WeatherPresenterImpl()
-        weatherPresenter.createClient(activity!!)
+        weatherPresenterImpl.createClient(activity!!)
 
         weatherApiClient = RetrofitnearbyClient.getClient("http://api.openweathermap.org").create(WeatherApiClient::class.java)
 
-        locationRequest = weatherPresenter.BuildLocationreq()
-        locationCallback = weatherPresenter.Buildlocationcallback(weatherApiClient, activity!!, passed_view)
-        getWeatherInfo = weatherPresenter.getWeatherInfo(context!!, bundle, weatherApiClient, passed_view ).toString()
+        locationRequest = weatherPresenterImpl.BuildLocationreq()
+        locationCallback = weatherPresenterImpl.Buildlocationcallback(weatherApiClient, activity!!, passed_view)
+        weatherPresenterImpl.getWeatherInfo(context!!, bundle, weatherApiClient, passed_view )
 
         Log.e(TAG, "Location Value is: $locationCallback")
 
@@ -69,6 +81,10 @@ class WeatherFragment: Fragment(), WeatherView{
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity!!)
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }
+
+//        fragment_weather_txt_city.text = cityname.toUpperCase()
+//        fragment_weather_txt_temp.text = tempvalue.toString()
+//        fragment_weather_txt_skydesc.text = skytype.toString() + " " + mintempvalue.toString() + " - " + maxtempvalue.toString()
     }
 
 
@@ -81,18 +97,15 @@ class WeatherFragment: Fragment(), WeatherView{
 
         Log.e("Weather-Fragment", "Bundle is : ${bundle}")
         Log.e("Weather-Fragment", "In the SendWeatherInfo")
-        var cityname = bundle["city"] as String
-        var countryname = bundle["country"] as String
-        var tempvalue = bundle["temp"] as String
-        var skytype = bundle["sky"] as String
-        var mintempvalue = bundle["mintemp"] as String
-        var maxtempvalue = bundle["maxtemp"] as String
+        cityname = bundle["city"] as String
+        countryname = bundle["country"] as String
+        tempvalue = bundle["temp"] as String
+        skytype = bundle["sky"] as String
+        mintempvalue = bundle["mintemp"] as String
+        maxtempvalue = bundle["maxtemp"] as String
 
         Log.e(TAG, cityname.toString())
-
         fragment_weather_txt_city.text = cityname.toUpperCase()
-        fragment_weather_txt_temp.text = tempvalue.toString()
-        fragment_weather_txt_skydesc.text = skytype.toString() + " " + mintempvalue.toString() + " - " + maxtempvalue.toString()
 
 
      //   dialog.dismiss()
